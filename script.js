@@ -6,7 +6,7 @@ const temperature = document.getElementById('temperature');
 const description = document.getElementById('description');
 const loading = document.getElementById('loading');
 
-const apiKey = 'YOUR_API_KEY'; // Replace with your actual API key from a weather service provider.
+const apiKey = 'd5b5d5e0bc34672065b36ee975cb27b0'; // Replace with your actual API key from a weather service provider.
 
 weatherForm.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -29,12 +29,16 @@ function hideLoading() {
 }
 
 async function getWeatherData(location) {
+    console.log("++++++++++++", location)
     showLoading();
 
     try {
-        const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(location)}&appid=${apiKey}`);
+        const response = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${apiKey}`);
+    
         const data = await response.json();
+        console.log(data, "##################");
         if (data.cod !== 200) {
+            console.log(data, "#########error happen#########");
             throw new Error(data.message);
         }
         const weatherInfo = processWeatherData(data);
@@ -59,4 +63,3 @@ function displayWeatherData(weatherInfo) {
     temperature.textContent = `Temperature: ${weatherInfo.temperature}°C`;
     description.textContent = `Description: ${weatherInfo.description}`;
 }
-
